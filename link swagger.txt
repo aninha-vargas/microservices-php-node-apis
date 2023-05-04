@@ -1,0 +1,7 @@
+https://github.com/aninha-vargas/microservices-php-node-apis
+
+https://www.youtube.com/watch?v=rJ_GR3Y8-ck
+11:21 continuar
+
+comando pra gerar a atualização: php artisan swagger
+

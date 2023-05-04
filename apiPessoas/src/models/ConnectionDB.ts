@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('chamadodb', 'root', 'fiscaltechbd', {
+const sequelize = new Sequelize('chamadodb', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
 });

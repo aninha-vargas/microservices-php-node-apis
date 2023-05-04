@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->integer('solicitante_id');
-            $table->integer('responsavel_id')->nullable();
+            $table->string('solicitante')->nullable();
+            $table->string('responsavel')->nullable();
             $table->longText('mensagem');
             $table->string('assunto');
             // $table->foreignId('status_id')->contrained('status');

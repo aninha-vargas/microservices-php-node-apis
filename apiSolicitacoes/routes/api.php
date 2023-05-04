@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PessoaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('pedido')->group(function () {
     Route::get('/', [PedidoController::class, 'listarPedidos']);
     Route::post('/', [PedidoController::class, 'cadastrarPedido']);
+    Route::put('/{id}', [PedidoController::class, 'atualizarPedido']);
+});
+Route::prefix('pessoa')->group(function () {
+    Route::get('/{id}', [PessoaController::class, 'obterPessoa']);
 });
