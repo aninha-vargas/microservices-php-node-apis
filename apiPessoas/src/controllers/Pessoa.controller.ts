@@ -3,8 +3,10 @@ import { Request, Response } from 'express';
 import { Pessoa } from "../models/Pessoa.model";
 import Axios from 'axios';
 import { Endereco } from "../models/Endereco.models";
+import { RabbitMQService } from "../services/Rabbitmq.services";
 
 const repositoryPessoa = new PessoaRepository();
+const service = new RabbitMQService();
 
 export class PessoaController {
     async listar(request: Request, response: Response) {
@@ -24,6 +26,8 @@ export class PessoaController {
         let endereco: Endereco = (await Axios.get(`http://localhost:3000/getApi/${cep}`)).data.content;
         let pessoa: Pessoa = { nome, idade, endereco }
         const result = await repositoryPessoa.incluir(pessoa);
+
+        service.enviar(JSON.stringify(result.content));
 
         return response.json({ status: result.status, content: result.content })
 
