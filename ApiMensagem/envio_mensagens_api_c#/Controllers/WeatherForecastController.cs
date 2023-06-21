@@ -30,9 +30,6 @@ namespace envio_mensagens_api_c_.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] string message)
         {
-            // Aqui você pode processar a mensagem enviada
-
-            // Exemplo de envio da resposta
             return Ok($"Mensagem recebida: {message}");
         }
     }
