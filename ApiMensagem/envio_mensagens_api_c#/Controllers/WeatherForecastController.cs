@@ -1,6 +1,5 @@
-using envio_mensagens_api_c_.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace envio_mensagens_api_c_.Controllers
 {
@@ -8,37 +7,33 @@ namespace envio_mensagens_api_c_.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly RabbitMQSenderService _senderService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, RabbitMQSenderService senderService)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _senderService = senderService;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return new string[] { "Mensagem 1", "Mensagem 2", "Mensagem 3" };
         }
 
-        [HttpPost("SendMessage")]
-        public IActionResult SendMessage([FromBody] WeatherForecast weather)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            _senderService.SendMessage(weather.Message, "routing_key"); // Altere a routing key conforme necessário
-            return Ok();
+            var message = $"Mensagem com ID {id}";
+            return Ok(message);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] string message)
+        {
+            // Aqui você pode processar a mensagem enviada
+
+            // Exemplo de envio da resposta
+            return Ok($"Mensagem recebida: {message}");
         }
     }
 }
