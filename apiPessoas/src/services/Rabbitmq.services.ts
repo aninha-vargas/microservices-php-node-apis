@@ -3,7 +3,7 @@ import * as amqp from 'amqplib';
 export class RabbitMQService {
   async enviar(mensagem: string): Promise<any> {
     const fila = "FILA";
-    const rabbitURL = "amqp://localhost";
+    const rabbitURL = "amqps://cslpkmzd:AvZdJN4xJsnhPDBivWrUVXt7VUcL8B7G@jackal.rmq.cloudamqp.com/cslpkmzd";
 
     try {
       const connection = await amqp.connect(rabbitURL);

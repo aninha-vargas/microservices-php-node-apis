@@ -27,7 +27,7 @@ export class PessoaController {
         let pessoa: Pessoa = { nome, idade, endereco }
         const result = await repositoryPessoa.incluir(pessoa);
 
-        service.enviar(JSON.stringify(result.content));
+        service.enviar(JSON.stringify(pessoa));
 
         return response.json({ status: result.status, content: result.content })
 
