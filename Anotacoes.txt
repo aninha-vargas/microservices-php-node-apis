@@ -10,6 +10,14 @@
 Laravel
 1) na pasta do projeto: apiSolicitacoes rodar: php artisan serve
 
+
+
 link do RabbitMQ Laravel
 https://www.rabbitmq.com/devtools.html
 https://github.com/Vinelab/bowler#setup
+
+BD:
+Laravel: pedidos
+Node: chamadodb
+
+Conexao local: const rabbitURL = "amqp://localhost";
