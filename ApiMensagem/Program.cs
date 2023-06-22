@@ -15,7 +15,6 @@ namespace envio_mensagem_c_
         {
             using IHost host = CreateHostBuilder(args).Build();
 
-            // Obtenha o serviço do banco de dados
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

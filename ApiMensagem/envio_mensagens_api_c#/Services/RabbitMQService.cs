@@ -1,62 +1,57 @@
+using System;
 using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using envio_mensagens_api_c_.Data;
 
 namespace envio_mensagens_api_c_.Services
 {
     public class RabbitMQService : BackgroundService
     {
-        private readonly ILogger<RabbitMQService> _logger;
-        private readonly ConnectionFactory _factory;
-        private readonly string _queueName;
+        private readonly IServiceProvider _serviceProvider;
 
-        public RabbitMQService(ILogger<RabbitMQService> logger)
+        public RabbitMQService(IServiceProvider serviceProvider)
         {
-            _logger = logger;
-            _factory = new ConnectionFactory
+            _serviceProvider = serviceProvider;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            var factory = new ConnectionFactory
             {
                 HostName = "localhost"
             };
-            _queueName = "FILA";
-        }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            using (var connection = _factory.CreateConnection())
+            using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+                channel.QueueDeclare(queue: "FILA",
+                                     durable: false,
+                                     exclusive: false,
+                                     autoDelete: false,
+                                     arguments: null);
 
                 var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, message) =>
+                consumer.Received += async (model, message) =>
                 {
                     var body = message.Body.ToArray();
                     var mensagem = Encoding.UTF8.GetString(body);
-                    _logger.LogInformation($"Received message: {mensagem}");
+                    Console.WriteLine($"Mensagem recebida: {mensagem}");
+
+                    using (var scope = _serviceProvider.CreateScope())
+                    {
+                        var messageRepository = scope.ServiceProvider.GetRequiredService<IMessageRepository>();
+                        await messageRepository.AddMessageAsync(mensagem);
+                    }
                 };
 
-                channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
+                channel.BasicConsume(queue: "FILA",
+                                     autoAck: true,
+                                     consumer: consumer);
 
-                stoppingToken.ThrowIfCancellationRequested();
-            }
-
-            return Task.CompletedTask;
-        }
-
-        public void SendMessage(string id, string message)
-        {
-            using (var connection = _factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-                var body = Encoding.UTF8.GetBytes($"{id} - {message}");
-
-                channel.BasicPublish(exchange: "", routingKey: _queueName, basicProperties: null, body: body);
+                await Task.Delay(Timeout.Infinite, stoppingToken);
             }
         }
     }
