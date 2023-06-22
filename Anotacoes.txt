@@ -1,0 +1,15 @@
+1. Abrir o xampp (rodar: mysql / apache)
+2. ir até a na pasta do projeto node cd .\apiPessoas\
+3. rodar o projeto: npm run dev
+4. abrir o dockerDesktop
+5. em um terminal rodar o container do RabbitMq: docker run --rm -it -p 8080:15672 -p 5672:5672 rabbitmq:3-management
+6. rodar no navegador a aplicação: http://localhost:8080/
+7. conectar: guest / guest
+8. Fazer o teste na aplicação node enviando send request
+
+Laravel
+1) na pasta do projeto: apiSolicitacoes rodar: php artisan serve
+
+link do RabbitMQ Laravel
+https://www.rabbitmq.com/devtools.html
+https://github.com/Vinelab/bowler#setup
