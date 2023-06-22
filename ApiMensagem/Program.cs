@@ -99,9 +99,7 @@ namespace envio_mensagem_c_
             {
                 var messages = new List<Message>
                 {
-                    new Message { Text = "Exemplo de mensagem 1" },
-                    new Message { Text = "Exemplo de mensagem 2" },
-                    new Message { Text = "Exemplo de mensagem 3" }
+                    new Message { Text = "Exemplo de mensagem" }
                 };
 
                 Messages.AddRange(messages);
