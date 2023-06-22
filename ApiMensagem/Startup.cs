@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using envio_mensagens_api_c_.Data;
+using envio_mensagem_c_;
 
 namespace envio_mensagens_api_c_
 {
