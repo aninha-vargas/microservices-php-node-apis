@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\ConsumeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::prefix('pedido')->group(function () {
     Route::post('/', [PedidoController::class, 'cadastrarPedido']);
     Route::put('/{id}', [PedidoController::class, 'atualizarPedido']);
 });
+Route::prefix('consume')->group(function () {
+    Route::get('/', [ConsumeController::class, 'consumer']);
+});
+
 Route::prefix('pessoa')->group(function () {
     Route::get('/{id}', [PessoaController::class, 'obterPessoa']);
 });
