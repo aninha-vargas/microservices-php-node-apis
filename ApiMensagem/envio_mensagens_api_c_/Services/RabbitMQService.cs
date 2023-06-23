@@ -4,6 +4,8 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using envio_mensagens_api_c_.Repositories;
+using Microsoft.Extensions.Hosting;
 
 namespace envio_mensagens_api_c_.Services
 {

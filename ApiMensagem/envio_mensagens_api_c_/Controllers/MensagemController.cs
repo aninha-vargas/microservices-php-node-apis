@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using envio_mensagens_api_c_.Services;
+using envio_mensagens_api_c_.Repositories;
 
 namespace envio_mensagens_api_c_.Controllers
 {
